@@ -14,7 +14,7 @@ paddle.setState(ElementState(0, 0))
 renderer.initialize()
 renderer.register(paddle)
 
-paddle.setState(ElementState(50, 50))
+paddle.setState(ElementState(50, 300))
 
 running = True
 

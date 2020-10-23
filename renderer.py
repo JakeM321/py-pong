@@ -1,8 +1,12 @@
 import pygame
 from config import GameConfig, Colours
-from element import Element
+from element import Element, ElementState
 
 class Sprite(pygame.sprite.Sprite):
+    def applyStateChange(self, update: ElementState):
+        self.rect.x = update.x
+        self.rect.y = update.y
+
     def __init__(self, colors: Colours, element: Element):
         super().__init__()
 
@@ -13,8 +17,7 @@ class Sprite(pygame.sprite.Sprite):
         if element.shape == 'rect':
             pygame.draw.rect(self.image, colors.primary, element.dimensions)
             self.rect = self.image.get_rect()
-            self.rect.x = element.state.x
-            self.rect.y = element.state.y
+            element.state.subscribe(self.applyStateChange)
 
 class Renderer:
     def __init__(self, config: GameConfig):
