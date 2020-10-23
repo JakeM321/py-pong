@@ -28,14 +28,15 @@ def movePaddle(x):
         paddle.moveDown()
     else:
         paddle.moveUp()
-        
 
-rx.interval(0.05).subscribe(movePaddle)
+frameInterval = 1 / 60
 
-running = True
+rx.interval(frameInterval).subscribe(movePaddle)
 
-while(running):
-    running = eventHandler.listen()
+while(True):
+    if not eventHandler.listen():
+        break
+
     renderer.draw()
 
 renderer.cleanup()
