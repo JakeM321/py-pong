@@ -10,8 +10,8 @@ class GameConfig:
     caption = 'Pong'
 
     controls = {
-        repr(['KEY_w']): 'left_up',
-        repr(['KEY_s']): 'left_down',
-        repr(['KEY_up']): 'right_up',
-        repr(['KEY_down']): 'right_down'
+        'KEY_w': 'left_up',
+        'KEY_s': 'left_down',
+        'KEY_UP': 'right_up',
+        'KEY_DOWN': 'right_down'
     }

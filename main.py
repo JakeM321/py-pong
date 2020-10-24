@@ -6,37 +6,45 @@ from eventhandler import EventHandler
 from keyreader import KeyReader
 import rx
 from rx.subject import BehaviorSubject
+import time
 
 config = GameConfig()
 renderer = Renderer(config)
 eventHandler = EventHandler()
 keyReader = KeyReader()
 
-paddle_player1 = Paddle(config.sHeight)
+paddle_player1 = Paddle(config.sHeight, 0, 0)
+paddle_player2 = Paddle(config.sHeight, config.sWidth - 20, 0)
 
 renderer.initialize()
 renderer.register(paddle_player1)
+renderer.register(paddle_player2)
 
-frameInterval = 1 / 60
+timelapse = 1 / 100
+fps = 120
 
 def actionHandler(x):
     keys = list(keyReader.getKeyPress())
-    codes = repr(list(map(lambda key: key.code, keys)))
+    codes = list(map(lambda key: key.code, keys))
+    actions = list(map(lambda code: config.controls[code],
+        filter(lambda code: code in config.controls, codes)))
 
-    if codes in config.controls:
-        action = config.controls[codes]
+    if 'left_up' in actions:
+        paddle_player1.moveUp()
+    if 'left_down' in actions:
+        paddle_player1.moveDown()
+    if 'right_up' in actions:
+        paddle_player2.moveUp()
+    if'right_down' in actions:
+        paddle_player2.moveDown()
 
-        if action == 'left_up':
-            paddle_player1.moveUp()
-        elif action == 'left_down':
-            paddle_player1.moveDown()
-
-rx.interval(frameInterval).subscribe(actionHandler)
+rx.interval(timelapse).subscribe(actionHandler)
 
 while(True):
     if not eventHandler.listen():
         break
 
     renderer.draw()
+    time.sleep(1 / fps)
 
 renderer.cleanup()
