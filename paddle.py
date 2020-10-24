@@ -3,7 +3,7 @@ from element import Element, ElementState
 class Paddle(Element):
     def __init__(self, boundary):
         super().__init__('rect', [0, 0, 20, 200], 20, 200)
-        self.boundary = boundary
+        self.boundary = boundary - 200
 
         self.step = 30
 
@@ -14,4 +14,4 @@ class Paddle(Element):
     
     def moveDown(self):
         prev = self.state.value
-        super().setState(ElementState(prev.x, prev.y + self.step if prev.y <= self.boundary else 0))
+        super().setState(ElementState(prev.x, prev.y + self.step if prev.y <= self.boundary else prev.y))

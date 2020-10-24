@@ -4,6 +4,8 @@ class Colours:
 
 class GameConfig:
     colours = Colours()
+    sWidth = 1920
+    sHeight = 1080
     dimensions = (1920, 1080)
     caption = 'Pong'
 

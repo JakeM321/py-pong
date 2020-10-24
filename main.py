@@ -12,10 +12,10 @@ renderer = Renderer(config)
 eventHandler = EventHandler()
 keyReader = KeyReader()
 
-paddle = Paddle(10000)
+paddle_player1 = Paddle(config.sHeight)
 
 renderer.initialize()
-renderer.register(paddle)
+renderer.register(paddle_player1)
 
 frameInterval = 1 / 60
 
@@ -27,9 +27,9 @@ def actionHandler(x):
         action = config.controls[codes]
 
         if action == 'left_up':
-            paddle.moveUp()
+            paddle_player1.moveUp()
         elif action == 'left_down':
-            paddle.moveDown()
+            paddle_player1.moveDown()
 
 rx.interval(frameInterval).subscribe(actionHandler)
 
