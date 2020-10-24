@@ -21,16 +21,15 @@ frameInterval = 1 / 60
 
 def actionHandler(x):
     keys = list(keyReader.getKeyPress())
+    codes = repr(list(map(lambda key: key.code, keys)))
 
-    if len(keys) > 0:
-        singleKey = keys[0]
-        if singleKey.code in config.controls:
-            action = config.controls[singleKey.code]
+    if codes in config.controls:
+        action = config.controls[codes]
 
-            if action == 'left_up':
-                paddle.moveUp()
-            elif action == 'left_down':
-                paddle.moveDown()
+        if action == 'left_up':
+            paddle.moveUp()
+        elif action == 'left_down':
+            paddle.moveDown()
 
 rx.interval(frameInterval).subscribe(actionHandler)
 
