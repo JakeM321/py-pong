@@ -7,6 +7,7 @@ from keyreader import KeyReader
 import rx
 from rx.subject import BehaviorSubject
 import time
+from ball import Ball
 
 config = GameConfig()
 renderer = Renderer(config)
@@ -15,10 +16,12 @@ keyReader = KeyReader()
 
 paddle_player1 = Paddle(config.sHeight, 0, 0)
 paddle_player2 = Paddle(config.sHeight, config.sWidth - 20, 0)
+ball = Ball(config.sWidth, config.sHeight, 30, config.sHeight - 50)
 
 renderer.initialize()
 renderer.register(paddle_player1)
 renderer.register(paddle_player2)
+renderer.register(ball)
 
 timelapse = 1 / 100
 fps = 120
@@ -37,6 +40,10 @@ def actionHandler(x):
         paddle_player2.moveUp()
     if'right_down' in actions:
         paddle_player2.moveDown()
+
+    #todo - collision check
+
+    ball.lapse()
 
 rx.interval(timelapse).subscribe(actionHandler)
 
