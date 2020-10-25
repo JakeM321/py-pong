@@ -8,9 +8,12 @@ import rx
 from rx.subject import BehaviorSubject
 import time
 from ball import Ball
+from spritestore import SpriteStore
 
 config = GameConfig()
 renderer = Renderer(config)
+store = SpriteStore(config)
+
 eventHandler = EventHandler()
 keyReader = KeyReader()
 
@@ -19,9 +22,9 @@ paddle_player2 = Paddle(config.sHeight, config.sWidth - 20, 0)
 ball = Ball(config.sWidth, config.sHeight, 30, config.sHeight - 50)
 
 renderer.initialize()
-renderer.register(paddle_player1)
-renderer.register(paddle_player2)
-renderer.register(ball)
+store.register(paddle_player1)
+store.register(paddle_player2)
+store.register(ball)
 
 timelapse = 1 / 100
 fps = 120
@@ -51,7 +54,7 @@ while(True):
     if not eventHandler.listen():
         break
 
-    renderer.draw()
+    renderer.draw(store)
     time.sleep(1 / fps)
 
 renderer.cleanup()
