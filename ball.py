@@ -19,5 +19,14 @@ class Ball(Element):
 
         super().setState(next)
 
-    def handleCollision(self):
-        self.direction = (not self.direction[0], not self.direction[1])
+    def handleCollision(self, hAngle):
+        if (hAngle):
+            if (self.direction[0]):
+                self.direction = (True, not self.direction[1])
+            else:
+                self.direction = (self.direction[0], not self.direction[1])
+        else:
+            if (self.direction[0]):
+                self.direction = (not self.direction[0], self.direction[1])
+            else:
+                self.direction = (True, self.direction[1])

@@ -13,6 +13,7 @@ class Sprite(pygame.sprite.Sprite):
         self.image = pygame.Surface([element.width, element.height])
         self.image.fill(colors.background)
         self.image.set_colorkey(colors.background)
+        self.id = element.id
 
         if element.shape == 'rect':
             pygame.draw.rect(self.image, colors.primary, element.dimensions)
@@ -23,7 +24,15 @@ class SpriteStore:
     def __init__(self, config: GameConfig):
         self.config = config
         self.sprites = pygame.sprite.Group()
+        self.lookup = {}
 
     def register(self, element: Element):
         sprite = Sprite(self.config.colours, element)
         self.sprites.add(sprite)
+        self.lookup[sprite.id] = sprite
+
+    def collisionCheck(self, a: Element, b: Element):
+        spriteA = self.lookup[a.id]
+        spriteB = self.lookup[b.id]
+
+        return pygame.sprite.collide_mask(spriteA, spriteB)

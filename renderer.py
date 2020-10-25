@@ -17,4 +17,5 @@ class Renderer:
         pygame.display.flip()
 
     def cleanup(self):
+        print("Cleanup")
         pygame.quit()
