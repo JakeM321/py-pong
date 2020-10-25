@@ -15,3 +15,5 @@ class GameConfig:
         'KEY_UP': 'right_up',
         'KEY_DOWN': 'right_down'
     }
+
+gameConfig = GameConfig()

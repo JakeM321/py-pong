@@ -1,27 +1,27 @@
 import pygame
-from renderer import Renderer
-from config import GameConfig
-from paddle import Paddle
-from eventhandler import EventHandler
-from keyreader import KeyReader
 import rx
 from rx.subject import BehaviorSubject
 from rx import operators as op
 from rx.scheduler import CurrentThreadScheduler
 import time
-from ball import Ball
-from spritestore import SpriteStore
 
-config = GameConfig()
-renderer = Renderer(config)
-store = SpriteStore(config)
+from renderer import Renderer
+from config import gameConfig
+from paddle import Paddle
+from eventhandler import EventHandler
+from keyreader import KeyReader
+from ball import Ball
+from spritestore import store
+from collisionchecker import collisionChecker
+
+renderer = Renderer(gameConfig)
 
 eventHandler = EventHandler()
 keyReader = KeyReader()
 
-yBoundary = config.sHeight - 30
+yBoundary = gameConfig.sHeight - 30
 yMin = 30
-xBoundary = config.sWidth - 30
+xBoundary = gameConfig.sWidth - 30
 xMin = 30
 
 paddle_player1 = Paddle(yBoundary, xMin, yMin)
@@ -38,8 +38,8 @@ fps = 60
 def handleActions():
     keys = list(keyReader.getKeyPress())
     codes = list(map(lambda key: key.code, keys))
-    actions = list(map(lambda code: config.controls[code],
-        filter(lambda code: code in config.controls, codes)))
+    actions = list(map(lambda code: gameConfig.controls[code],
+        filter(lambda code: code in gameConfig.controls, codes)))
 
     if 'left_up' in actions:
         paddle_player1.moveUp()
@@ -50,7 +50,7 @@ def handleActions():
     if 'right_down' in actions:
         paddle_player2.moveDown()
 
-    ballHitPaddle = store.collisionCheck(paddle_player1, ball) or store.collisionCheck(paddle_player2, ball)
+    ballHitPaddle = collisionChecker.check(paddle_player1, ball) or collisionChecker.check(paddle_player2, ball)
     ballHitFloorOrCeiling = ball.state.value.y <= yMin or ball.state.value.y >= yBoundary
     ballOutOfBounds = ball.state.value.x <= xMin or ball.state.value.x >= xBoundary
 

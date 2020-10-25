@@ -1,6 +1,6 @@
 import pygame
 from element import ElementState, Element
-from config import GameConfig, Colours
+from config import GameConfig, Colours, gameConfig
 
 class Sprite(pygame.sprite.Sprite):
     def applyStateChange(self, update: ElementState):
@@ -31,8 +31,4 @@ class SpriteStore:
         self.sprites.add(sprite)
         self.lookup[sprite.id] = sprite
 
-    def collisionCheck(self, a: Element, b: Element):
-        spriteA = self.lookup[a.id]
-        spriteB = self.lookup[b.id]
-
-        return pygame.sprite.collide_mask(spriteA, spriteB)
+store = SpriteStore(gameConfig)
