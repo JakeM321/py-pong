@@ -14,6 +14,8 @@ from ball import Ball
 from spritestore import store
 from collisionchecker import collisionChecker
 
+# TODO - upwards motion issue causing ball to pass through collision
+
 renderer = Renderer(gameConfig)
 
 eventHandler = EventHandler()
