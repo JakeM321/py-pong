@@ -71,7 +71,7 @@ continueRunning = True
 while(continueRunning):
     handleActions()
 
-    if not eventHandler.listen():
+    if not eventHandler.quit():
         continueRunning = False
         renderer.cleanup()
 
