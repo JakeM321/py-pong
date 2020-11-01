@@ -1,4 +1,4 @@
-from element import Element, ElementState
+from element import Element
 
 class Ball(Element):
     def __init__(self, boundaryX, boundaryY, initX, initY):
@@ -7,26 +7,23 @@ class Ball(Element):
         self.boundaryY = boundaryY - 20
 
         self.step = 15
-        self.setState(ElementState(initX, initY))
+        self.setPosition((initX, initY))
 
         self.direction = (True, False)
 
     def lapse(self):
-        prev = self.state.value
-        next = ElementState(
-            prev.x + self.step if self.direction[0] else prev.x - self.step,
-            prev.y + self.step if self.direction[1] else prev.y - self.step)
+        prev = self.position.value
+        next = (
+            prev[0] + self.step if self.direction[0] else prev[0]- self.step,
+            prev[1] + self.step if self.direction[1] else prev[1] - self.step)
 
-        super().setState(next)
+        super().setPosition(next)
 
-    def handleCollision(self, hAngle):
-        if (hAngle):
-            if (self.direction[0]):
-                self.direction = (True, not self.direction[1])
-            else:
-                self.direction = (self.direction[0], not self.direction[1])
+    def handleCollision(self, isHorizontalAngle):
+        movingRight = self.direction[0]
+        movingDown = self.direction[1]
+
+        if (isHorizontalAngle):
+            self.direction = (movingRight, not movingDown)
         else:
-            if (self.direction[0]):
-                self.direction = (not self.direction[0], self.direction[1])
-            else:
-                self.direction = (True, self.direction[1])
+            self.direction = (not movingRight, movingDown)

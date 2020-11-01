@@ -1,6 +1,6 @@
 import pygame
 from config import GameConfig, Colours
-from element import Element, ElementState
+from element import Element
 from spritestore import SpriteStore
 
 class Renderer:

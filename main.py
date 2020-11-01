@@ -14,7 +14,7 @@ from ball import Ball
 from spritestore import store
 from collisionchecker import collisionChecker
 
-# TODO - upwards motion issue causing ball to pass through collision
+# Bug - ball bounces the wrong way and passes through the paddle when hitting the top of it
 
 renderer = Renderer(gameConfig)
 
@@ -53,16 +53,15 @@ def handleActions():
         paddle_player2.moveDown()
 
     ballHitPaddle = collisionChecker.check(paddle_player1, ball) or collisionChecker.check(paddle_player2, ball)
-    ballHitFloorOrCeiling = ball.state.value.y <= yMin or ball.state.value.y >= yBoundary
-    ballOutOfBounds = ball.state.value.x <= xMin or ball.state.value.x >= xBoundary
+    ballHitFloorOrCeiling = ball.position.value[1] <= yMin or ball.position.value[1] >= yBoundary
+    ballOutOfBounds = ball.position.value[0] <= xMin or ball.position.value[0] >= xBoundary
 
     if ballHitPaddle or ballHitFloorOrCeiling:
         ball.handleCollision(ballHitFloorOrCeiling)
     
     if ballOutOfBounds:
         time.sleep(2)
-        ball.state.value.x = xMin + 30
-        ball.state.value.y = yBoundary - 50
+        ball.setPosition((xMin + 30, yBoundary - 50))
         ball.handleCollision(False)
 
     ball.lapse()

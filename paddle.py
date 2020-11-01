@@ -1,4 +1,4 @@
-from element import Element, ElementState
+from element import Element
 
 class Paddle(Element):
     def __init__(self, boundary, initX, initY):
@@ -6,13 +6,13 @@ class Paddle(Element):
         self.boundary = boundary - 200
 
         self.step = 30
-        self.setState(ElementState(initX, initY))
+        self.setPosition((initX, initY))
 
     def moveUp(self):
-        prev = self.state.value
-        next = ElementState(prev.x, prev.y - self.step if prev.y - self.step >= 0 else prev.y)
-        super().setState(next)
+        prev = self.position.value
+        next = (prev[0], prev[1] - self.step if prev[1] - self.step >= 0 else prev[1])
+        super().setPosition(next)
     
     def moveDown(self):
-        prev = self.state.value
-        super().setState(ElementState(prev.x, prev.y + self.step if prev.y <= self.boundary else prev.y))
+        prev = self.position.value
+        super().setPosition((prev[0], prev[1] + self.step if prev[1] <= self.boundary else prev[1]))

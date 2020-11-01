@@ -1,11 +1,11 @@
 import pygame
-from element import ElementState, Element
+from element import Element
 from config import GameConfig, Colours, gameConfig
 
 class Sprite(pygame.sprite.Sprite):
-    def applyStateChange(self, update: ElementState):
-        self.rect.x = update.x
-        self.rect.y = update.y
+    def applyStateChange(self, update):
+        self.rect.x = update[0]
+        self.rect.y = update[1]
 
     def __init__(self, colors: Colours, element: Element):
         super().__init__()
@@ -18,7 +18,7 @@ class Sprite(pygame.sprite.Sprite):
         if element.shape == 'rect':
             pygame.draw.rect(self.image, colors.primary, element.dimensions)
             self.rect = self.image.get_rect()
-            element.state.subscribe(self.applyStateChange)
+            element.position.subscribe(self.applyStateChange)
 
 class SpriteStore:
     def __init__(self, config: GameConfig):
